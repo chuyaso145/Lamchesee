@@ -376,7 +376,7 @@ else if(!S){A.innerHTML=`<div class="wrap">${head}<div class="glass" style="disp
   $('#bk').onclick=()=>{screen='home';err='';render()};$('#fr').onchange=e=>lob.fr=e.target.checked;$('#mk').onclick=create;$('#jn').onclick=()=>{const v=$('#cd').value.trim();v.length===6?join(v):(err='Escribe el código de 6 letras',render())};$('#qk').onclick=()=>join('QUICK1',1)}
  else{const p=mp(),fl=p&&p.team==='b',cur=S.players.find(x=>x.id===(S.mode==='2v2'?moverId():'')&&x.team===G.turn())||S.players.find(x=>x.team===G.turn()),mine=S.status==='playing'&&p&&p.team===G.turn()&&(S.mode==='1v1'||moverId()===me.id||Date.now()-S.clk.ts>=25000);
   const tip=S.status==='waiting'?`Esperando jugadores (${S.players.length}/${need()}) · Código ${S.id}`:S.status==='over'?`${S.res}${S.win?' · ganan '+(S.win==='w'?'Blancas':'Negras'):''}`:`Turno de ${esc(cur?cur.name:'')}`;
-  const slots=Array.from({length:4},(_,i)=>S.players[i]).slice(0,need());
+  const slots=Array.from({length:need()},(_,i)=>S.players[i]||{id:'libre'+i,name:'Libre',team:i%2?'b':'w'});
   let sq='';const rk=fl?[1,2,3,4,5,6,7,8]:[8,7,6,5,4,3,2,1],fs=fl?[7,6,5,4,3,2,1,0]:[0,1,2,3,4,5,6,7],tg=sel?G.moves({square:sel,verbose:true}).map(m=>m.to):[];
   const kg=G.in_check()?G.board().flat().find(c=>c&&c.type==='k'&&c.color===G.turn()):null;
   rk.forEach((r,ri)=>fs.forEach((f,fi)=>{const s=FLN[f]+r,pc=G.get(s),L=S.last,cls=['sq',(f+r)%2?'l':'k',sel===s?'s':'',L&&(L.f===s||L.t===s)?'lm':'',tg.includes(s)?'t':'',kg&&kg.square===s?'chk':''].join(' ');
