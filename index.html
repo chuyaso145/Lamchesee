@@ -223,7 +223,7 @@ async function connect(cd){
   q=ref.orderByChild('ts').startAt(Date.now()+off-2000);
   q.on('child_added',x=>{const v=x.val();let d;try{d=JSON.parse(v.d)}catch(e){return}(hd[v.t]||[]).forEach(f=>f({data:d}))});
   R={emit:(t,d)=>ref.push({t,d:JSON.stringify(d),ts:firebase.database.ServerValue.TIMESTAMP}),on:(t,f)=>{(hd[t]=hd[t]||[]).push(f)},leave:()=>{q.off();if(isHost())ref.remove()}}}
- catch(e){err='No se pudo conectar a Firebase';return null}
+ catch(e){console.error(e);err='No se pudo conectar a Firebase: '+(e.code||e.message||e);return null}
  lis('hello',()=>{if(isHost())tx('state',{s:S})});
  lis('join',d=>{if(isHost())hs('join',d)});
  lis('intent',d=>{if(isHost())hs(d.k,d)});
